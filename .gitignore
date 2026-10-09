@@ -1,0 +1,7 @@
+/generated/
+/out/
+
+*.log
+
+/game/*
+!/game/.gitkeep

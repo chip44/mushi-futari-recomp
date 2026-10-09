@@ -1,0 +1,58 @@
+[project]
+name = "mushi"
+sdk_version = "0.10.0"
+game_root = "game"
+
+[entrypoint]
+file_path = "game/default.xex"
+out_directory_path = "generated/default"
+includes = ["config/default_functions.toml"]
+
+[[modules]]
+file_path = "game/media/Module/hirow_abnormal.xex"
+guest_path = "media/Module/hirow_abnormal.xex"
+out_directory_path = "generated/hirow_abnormal"
+includes = ["config/hirow_abnormal_functions.toml"]
+
+[[modules]]
+file_path = "game/media/Module/hirow_normal.xex"
+guest_path = "media/Module/hirow_normal.xex"
+out_directory_path = "generated/hirow_normal"
+includes = ["config/hirow_normal_functions.toml"]
+
+[[modules]]
+file_path = "game/media/Module/kiniro_abnormal.xex"
+guest_path = "media/Module/kiniro_abnormal.xex"
+out_directory_path = "generated/kiniro_abnormal"
+includes = ["config/kiniro_abnormal_functions.toml"]
+
+[[modules]]
+file_path = "game/media/Module/kiniro_normal.xex"
+guest_path = "media/Module/kiniro_normal.xex"
+out_directory_path = "generated/kiniro_normal"
+includes = ["config/kiniro_normal_functions.toml"]
+
+[[modules]]
+file_path = "game/media/Module/palm_abnormal.xex"
+guest_path = "media/Module/palm_abnormal.xex"
+out_directory_path = "generated/palm_abnormal"
+includes = ["config/palm_abnormal_functions.toml"]
+
+[[modules]]
+file_path = "game/media/Module/palm_normal.xex"
+guest_path = "media/Module/palm_normal.xex"
+out_directory_path = "generated/palm_normal"
+includes = ["config/palm_normal_functions.toml"]
+
+[[modules]]
+file_path = "game/media/Module/reco_abnormal.xex"
+guest_path = "media/Module/reco_abnormal.xex"
+out_directory_path = "generated/reco_abnormal"
+includes = ["config/reco_abnormal_functions.toml"]
+
+[[modules]]
+file_path = "game/media/Module/reco_normal.xex"
+guest_path = "media/Module/reco_normal.xex"
+out_directory_path = "generated/reco_normal"
+includes = ["config/reco_normal_functions.toml"]
+
