@@ -1,0 +1,26 @@
+From 1f93583adeb5b4c0b37201603b416f1ae200da9e Mon Sep 17 00:00:00 2001
+From: chip <86570889+chip44@users.noreply.github.com>
+Date: Sat, 10 Oct 2026 15:59:22 +0300
+Subject: [PATCH] stage shared runtime libs next to exe on linux
+
+upstream pr: https://github.com/rexglue/rexglue-sdk/pull/469
+---
+ cmake/rexglue_helpers.cmake | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/cmake/rexglue_helpers.cmake b/cmake/rexglue_helpers.cmake
+index 41e6dce..68bb97e 100644
+--- a/cmake/rexglue_helpers.cmake
++++ b/cmake/rexglue_helpers.cmake
+@@ -109,7 +109,7 @@ function(rexglue_configure_target target_name)
+             COMMAND_EXPAND_LISTS
+             VERBATIM
+         )
+-    elseif(APPLE)
++    elseif(UNIX)
+         # macOS: $<TARGET_RUNTIME_DLLS> does not resolve imported dylibs, so
+         # stage the shared runtime libraries explicitly next to the executable
+         # (paired with the @executable_path rpath above). Everything else the
+-- 
+2.56.0
+

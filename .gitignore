@@ -1,4 +1,6 @@
-/generated/
+/generated/*
+!/generated/rexglue.cmake
+
 /out/
 
 *.log

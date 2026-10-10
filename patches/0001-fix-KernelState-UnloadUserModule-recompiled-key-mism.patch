@@ -1,0 +1,76 @@
+From 80345ef49fa5f4522b32a4cb6d6a7bd9c7d849a3 Mon Sep 17 00:00:00 2001
+From: chip <86570889+chip44@users.noreply.github.com>
+Date: Sat, 10 Oct 2026 16:01:42 +0300
+Subject: [PATCH] fix KernelState::UnloadUserModule recompiled key mismatch
+
+upstream issue: https://github.com/rexglue/rexglue-sdk/issues/421
+---
+ include/rex/system/user_module.h |  3 +++
+ src/system/kernel_state.cpp      | 16 +++++++---------
+ 2 files changed, 10 insertions(+), 9 deletions(-)
+
+diff --git a/include/rex/system/user_module.h b/include/rex/system/user_module.h
+index 49c7696..961f9e4 100644
+--- a/include/rex/system/user_module.h
++++ b/include/rex/system/user_module.h
+@@ -36,6 +36,8 @@ class UserModule : public XModule {
+ 
+   const std::string& path() const override { return path_; }
+   const std::string& name() const override { return name_; }
++  const std::string& recompiled_key() const { return recompiled_key_; }
++  void set_recompiled_key(std::string key) { recompiled_key_ = std::move(key); }
+ 
+   enum ModuleFormat {
+     kModuleFormatUndefined = 0,
+@@ -96,6 +98,7 @@ class UserModule : public XModule {
+ 
+   std::string name_;
+   std::string path_;
++  std::string recompiled_key_;
+ 
+   uint32_t guest_xex_header_ = 0;
+   ModuleFormat module_format_ = kModuleFormatUndefined;
+diff --git a/src/system/kernel_state.cpp b/src/system/kernel_state.cpp
+index 697399c..f742bc7 100644
+--- a/src/system/kernel_state.cpp
++++ b/src/system/kernel_state.cpp
+@@ -796,6 +796,7 @@ object_ref<UserModule> KernelState::LoadUserModule(const std::string_view raw_na
+           assert_true(lib_it != module_libraries_.end());
+           lib_it->second = std::move(library_local);
+           wired_recomp = true;
++          module->set_recompiled_key(lib_key);
+         }
+       }
+     }
+@@ -853,9 +854,8 @@ void KernelState::UnloadUserModule(const object_ref<UserModule>& module, bool ca
+   {
+     auto global_lock = global_critical_region_.Acquire();
+ 
+-    auto recomp = FindRecompiledModule(module->path());
+-    if (recomp) {
+-      const std::string& key = recomp->guest_path;
++    const std::string& key = module->recompiled_key();
++    if (!key.empty()) {
+       auto cleared_range = function_dispatcher_->UnregisterModule(key);
+       if (cleared_range) {
+         for (auto& km : kernel_modules_) {
+@@ -863,12 +863,10 @@ void KernelState::UnloadUserModule(const object_ref<UserModule>& module, bool ca
+         }
+       }
+ 
+-      if (!recomp->shared_lib_name.empty()) {
+-        auto lib_it = module_libraries_.find(key);
+-        if (lib_it != module_libraries_.end()) {
+-          deferred_unload_libraries_.push_back(std::move(lib_it->second));
+-          module_libraries_.erase(lib_it);
+-        }
++      auto lib_it = module_libraries_.find(key);
++      if (lib_it != module_libraries_.end()) {
++        deferred_unload_libraries_.push_back(std::move(lib_it->second));
++        module_libraries_.erase(lib_it);
+       }
+     }
+ 
+-- 
+2.56.0
+
