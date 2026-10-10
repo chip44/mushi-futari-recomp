@@ -1,0 +1,20 @@
+log_file = "run.log"
+
+protect_zero = false
+
+mnk_mode = true
+keybind_a = "Z"
+keybind_b = "X"
+keybind_x = "D"
+keybind_right_trigger = "C"
+keybind_lstick_up = "Up"
+keybind_lstick_down = "Down"
+keybind_lstick_left = "Left"
+keybind_lstick_right = "Right"
+keybind_rstick_up = "Numpad8"
+keybind_rstick_down = "Numpad2"
+keybind_rstick_left = "Numpad4"
+keybind_rstick_right = "Numpad6"
+keybind_back = "Tab"
+keybind_start = "Return,Escape,1"
+
