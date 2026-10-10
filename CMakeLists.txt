@@ -27,6 +27,16 @@ set_target_properties(mushi PROPERTIES
 rexglue_setup_target(mushi GPU_PLUGINS xenos)
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/generated/default/dll_targets.cmake")
+    target_link_libraries(mushi PRIVATE
+        mushi_hirow_abnormal
+        mushi_hirow_normal
+        mushi_kiniro_abnormal
+        mushi_kiniro_normal
+        mushi_palm_abnormal
+        mushi_palm_normal
+        mushi_reco_abnormal
+        mushi_reco_normal
+    )
     # see: https://github.com/rexglue/rexglue-sdk/issues/454
     set_target_properties(mushi_hirow_abnormal PROPERTIES PREFIX "" SUFFIX "")
     set_target_properties(mushi_hirow_normal PROPERTIES PREFIX "" SUFFIX "")
